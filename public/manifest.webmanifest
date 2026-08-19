@@ -1,0 +1,12 @@
+{
+  "name": "Veintiuno · Training Log",
+  "short_name": "Veintiuno",
+  "description": "Plan y registro para tus medias maratones de 2026.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f2ec",
+  "theme_color": "#172a27",
+  "lang": "es",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
