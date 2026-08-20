@@ -13,6 +13,24 @@ function Remove-Markdown([string]$Value) {
   return ($Value -replace '\*\*', '' -replace '`', '').Trim()
 }
 
+function Get-AppCategory([string]$Value) {
+  switch -Regex ($Value) {
+    '^Descanso$' { return 'Descanso' }
+    '^Series$' { return 'Series' }
+    '^Fartlek$' { return 'Fartlek' }
+    '^Tempo / controlado$' { return 'Fartlek' }
+    '^Rodaje suave' { return 'Rodaje' }
+    '^Ritmo espec.fico / Tirada larga si 14 km$' { return 'Tirada larga' }
+    '^Ritmo espec.fico$' { return 'Rodaje' }
+    '^Tirada larga$' { return 'Tirada larga' }
+    '^Regenerativo' { return 'Regenerativo' }
+    '^Fuerza' { return 'Fuerza' }
+    '^Activaci.n$' { return $Value }
+    '^Carrera$' { return 'Carrera' }
+    default { throw "Tipo de entrenamiento sin clasificar: $Value" }
+  }
+}
+
 function Get-WeekRange([string]$Label) {
   $match = [regex]::Match($Label, '^(\d{1,2})(?:\s+([a-záéíóú]{3}))?-(\d{1,2})\s+([a-záéíóú]{3})$')
   if (-not $match.Success) { throw "No se puede interpretar el rango semanal: $Label" }
@@ -95,7 +113,7 @@ foreach ($line in Get-Content -LiteralPath $PlanPath -Encoding utf8) {
     week = $week
     weekTitle = $weekTitle
     day = $dayLabel
-    category = $columns[2]
+    category = Get-AppCategory $columns[2]
     session = $columns[1]
     pace = $columns[3]
     volume = $columns[4]
