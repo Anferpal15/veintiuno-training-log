@@ -21,8 +21,9 @@ function formatDate(value: string, options: Intl.DateTimeFormatOptions = {}) {
   return new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "long", ...options }).format(parseLocalDate(value));
 }
 function formatDay(value: string) {
-  const label = new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric" }).format(parseLocalDate(value)).replace(".", "");
-  return label.charAt(0).toLocaleUpperCase("es") + label.slice(1);
+  const date = parseLocalDate(value);
+  const weekday = new Intl.DateTimeFormat("es-ES", { weekday: "short" }).format(date).replace(".", "");
+  return `${weekday.charAt(0).toLocaleUpperCase("es") + weekday.slice(1)} ${date.getDate()}`;
 }
 function getStatus(id: string, records: Record<string, TrainingRecord>): Status { return records[id]?.status ?? "planned"; }
 function categoryClass(value: string) { return value.toLowerCase().replaceAll(" ", "-"); }
