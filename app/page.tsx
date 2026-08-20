@@ -26,14 +26,16 @@ function formatDay(value: string) {
   return `${weekday.charAt(0).toLocaleUpperCase("es") + weekday.slice(1)} ${date.getDate()}`;
 }
 function getStatus(id: string, records: Record<string, TrainingRecord>): Status { return records[id]?.status ?? "planned"; }
-function categoryClass(value: string) { return value.toLowerCase().replaceAll(" ", "-"); }
+function categoryClass(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 function parseKm(value?: string) {
   const matches = value?.replace(",", ".").match(/\d+(?:\.\d+)?/g);
   if (!matches?.length) return 0;
   const values = matches.map(Number);
   return values.length > 1 ? (values[0] + values[1]) / 2 : values[0];
 }
-function SessionBadge({ category }: { category: string }) { return <span className={`session-badge ${categoryClass(category)}`}>{category === "Recuperacion" ? "Recuperación" : category}</span>; }
+function SessionBadge({ category }: { category: string }) { return <span className={`session-badge ${categoryClass(category)}`}>{category}</span>; }
 function StatusDot({ status }: { status: Status }) { return <span className={`status-dot ${status}`} aria-label={statusLabels[status]} />; }
 
 export default function Home() {
@@ -64,6 +66,7 @@ export default function Home() {
   const nextSession = plannedSessions.find((item) => item.date > today && item.category !== "Descanso");
   const currentWeekKey = todaySession?.week ?? plannedSessions.find((item) => item.date >= today)?.week ?? plannedSessions.at(-1)?.week;
   const currentWeek = plannedSessions.filter((item) => item.week === currentWeekKey);
+  const activeSessionCount = sessions.filter((item) => item.category !== "Descanso").length;
   const completed = Object.values(records).filter((record) => record.status === "completed" || record.status === "modified").length;
   const completedKm = Object.values(records).reduce((total, record) => total + (["completed", "modified"].includes(record.status) ? parseKm(record.distance) : 0), 0);
   const filteredSessions = useMemo(() => {
@@ -96,7 +99,7 @@ export default function Home() {
     <aside className="sidebar">
       <button className="brand" onClick={() => setActiveView("today")} aria-label="Ir a hoy"><span className="brand-mark">21</span><span><strong>Veintiuno</strong><small>Training log</small></span></button>
       <nav className="main-nav" aria-label="Navegación principal"><NavButton active={activeView === "today"} icon="⌂" label="Hoy" onClick={() => setActiveView("today")} /><NavButton active={activeView === "plan"} icon="▦" label="Mi plan" onClick={() => setActiveView("plan")} /><NavButton active={activeView === "progress"} icon="↗" label="Progreso" onClick={() => setActiveView("progress")} /></nav>
-      <div className="sidebar-goal"><span>Objetivo principal</span><strong>Sevilla · 1h50</strong><div className="goal-line"><i style={{ width: `${Math.min(100, (completed / 86) * 100)}%` }} /></div><small>{completed} sesiones registradas</small></div>
+      <div className="sidebar-goal"><span>Objetivo principal</span><strong>Sevilla · 1h50</strong><div className="goal-line"><i style={{ width: `${Math.min(100, (completed / activeSessionCount) * 100)}%` }} /></div><small>{completed} sesiones registradas</small></div>
     </aside>
     <main className="main-content">
       {activeView === "today" && <TodayView today={today} session={todaySession} nextSession={nextSession} currentWeek={currentWeek} records={records} onOpen={setSelected} onOpenPlan={() => setActiveView("plan")} />}
@@ -128,8 +131,8 @@ function TodayView({ today, session, nextSession, currentWeek, records, onOpen, 
 }
 
 function PlanView({ groupedSessions, records, search, category, onSearch, onCategory, onOpen }: { groupedSessions: Record<string, PlanSession[]>; records: Record<string, TrainingRecord>; search: string; category: string; onSearch: (value: string) => void; onCategory: (value: string) => void; onOpen: (session: PlanSession) => void }) {
-  const categories = ["Todos", "Rodaje", "Calidad", "Tirada larga", "Recuperacion", "Fuerza", "Descanso", "Carrera"];
-  return <><header className="page-header"><div><p className="eyebrow">14 agosto — 29 noviembre</p><h1>Mi plan de entrenamiento</h1><p className="header-copy">86 días organizados para llegar con confianza a Valencia y Sevilla.</p></div></header><div className="plan-tools"><label className="search-box"><span>⌕</span><input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Buscar una sesión" /></label><select value={category} onChange={(event) => onCategory(event.target.value)} aria-label="Filtrar por tipo">{categories.map((item) => <option key={item} value={item}>{item === "Recuperacion" ? "Recuperación" : item}</option>)}</select></div><div className="plan-list">{Object.entries(groupedSessions).map(([week, items]) => <section className="plan-week" key={week}><div className="plan-week-title"><span>{items[0].block}</span><h2>{week}</h2></div><div className="plan-week-items">{items.map((item) => { const status = getStatus(item.id, records); return <button className="plan-row" key={item.id} onClick={() => onOpen(item)}><div className="plan-date"><strong>{parseLocalDate(item.date).getDate()}</strong><span>{new Intl.DateTimeFormat("es-ES", { month: "short" }).format(parseLocalDate(item.date)).replace(".", "")}</span></div><div className="plan-session"><div><SessionBadge category={item.category} /><span className={`row-status ${status}`}>{statusLabels[status]}</span></div><h3>{item.session}</h3>{item.notes && <p>{item.notes}</p>}</div><div className="plan-target"><span>{item.volume}</span><strong>{item.pace}</strong></div><span className="row-arrow">›</span></button>; })}</div></section>)}</div></>;
+  const categories = ["Todos", ...new Set(sessions.map((item) => item.category))];
+  return <><header className="page-header"><div><p className="eyebrow">14 agosto — 29 noviembre</p><h1>Mi plan de entrenamiento</h1><p className="header-copy">Plan completo para llegar con confianza a Valencia y Sevilla.</p></div></header><div className="plan-tools"><label className="search-box"><span>⌕</span><input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Buscar una sesión" /></label><select value={category} onChange={(event) => onCategory(event.target.value)} aria-label="Filtrar por tipo">{categories.map((item) => <option key={item} value={item}>{item}</option>)}</select></div><div className="plan-list">{Object.entries(groupedSessions).map(([week, items]) => <section className="plan-week" key={week}><div className="plan-week-title"><span>{items[0].block}</span><h2>{week}</h2></div><div className="plan-week-items">{items.map((item) => { const status = getStatus(item.id, records); return <button className="plan-row" key={item.id} onClick={() => onOpen(item)}><div className="plan-date"><strong>{parseLocalDate(item.date).getDate()}</strong><span>{new Intl.DateTimeFormat("es-ES", { month: "short" }).format(parseLocalDate(item.date)).replace(".", "")}</span></div><div className="plan-session"><div><SessionBadge category={item.category} /><span className={`row-status ${status}`}>{statusLabels[status]}</span></div><h3>{item.session}</h3>{item.notes && <p>{item.notes}</p>}</div><div className="plan-target"><span>{item.volume}</span><strong>{item.pace}</strong></div><span className="row-arrow">›</span></button>; })}</div></section>)}</div></>;
 }
 
 function ProgressView({ records, completed, completedKm }: { records: Record<string, TrainingRecord>; completed: number; completedKm: number }) {

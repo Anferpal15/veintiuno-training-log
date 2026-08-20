@@ -89,6 +89,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .session-badge { border:1px solid rgba(25,52,77,.13); border-radius:5px; background:var(--ice); color:var(--ink); letter-spacing:.08em; }
 .session-badge.rodaje,.session-badge.tirada-larga,.session-badge.recuperacion,.session-badge.fuerza { background:var(--ice); color:var(--ink); }
 .session-badge.calidad,.session-badge.carrera { background:rgba(233,161,123,.28); color:var(--ink); border-color:rgba(233,161,123,.5); }
+.session-badge { line-height:1.25; }
+.session-badge.series,.session-badge.fartlek,.session-badge.tempo-controlado,.session-badge.ritmo-especifico,.session-badge.ritmo-especifico-tirada-larga-si-14-km,.session-badge.carrera { background:rgba(233,161,123,.28); color:var(--ink); border-color:rgba(233,161,123,.5); }
+.session-badge.descanso,.session-badge.fuerza-descanso,.session-badge.regenerativo-descanso { background:transparent; color:var(--muted); border-color:rgba(130,147,157,.35); }
+.session-badge.rodaje-suave,.session-badge.rodaje-suave-fuerza,.session-badge.tirada-larga,.session-badge.regenerativo,.session-badge.regenerativo-opcional,.session-badge.activacion,.session-badge.fuerza { background:var(--ice); color:var(--ink); }
 .coach-note { color:#5f707a; }
 .coach-note>span { background:var(--ice); color:var(--ink); }
 .primary-button { min-height:48px; background:var(--peach); color:var(--ink); border-radius:8px; text-transform:uppercase; letter-spacing:.08em; font-size:11px; }
@@ -121,6 +125,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .mini-dot.calidad,.mini-dot.carrera { background:var(--peach); }
 .mini-dot.rodaje,.mini-dot.tirada-larga { background:var(--ink); }
 .mini-dot.recuperacion,.mini-dot.fuerza { background:var(--ice); }
+.mini-dot.series,.mini-dot.fartlek,.mini-dot.tempo-controlado,.mini-dot.ritmo-especifico,.mini-dot.ritmo-especifico-tirada-larga-si-14-km,.mini-dot.carrera { background:var(--peach); }
+.mini-dot.rodaje-suave,.mini-dot.rodaje-suave-fuerza,.mini-dot.tirada-larga { background:var(--ink); }
+.mini-dot.regenerativo,.mini-dot.regenerativo-opcional,.mini-dot.regenerativo-descanso,.mini-dot.activacion,.mini-dot.fuerza,.mini-dot.fuerza-descanso,.mini-dot.descanso { background:var(--ice); }
 
 .next-card { background:var(--ice); }
 .next-date { border-color:rgba(25,52,77,.18); }
@@ -135,6 +142,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .plan-date { border-color:var(--line); }
 .plan-date strong { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
 .plan-session h3 { color:var(--charcoal); }
+.plan-session>div { flex-wrap:wrap; }
 .plan-target strong { color:var(--ink); }
 .row-status.completed { color:var(--ink); }
 .row-status.modified { color:#a65f3e; }

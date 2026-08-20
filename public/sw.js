@@ -1,4 +1,4 @@
-const CACHE = "veintiuno-v4";
+const CACHE = "veintiuno-v5";
 const BASE = new URL("./", self.location).pathname;
 const APP_SHELL = [BASE, `${BASE}manifest.webmanifest`, `${BASE}favicon.svg`];
 self.addEventListener("install", (event) => { event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(APP_SHELL))); self.skipWaiting(); });
