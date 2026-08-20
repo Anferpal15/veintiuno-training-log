@@ -11,6 +11,7 @@ type TrainingRecord = { status: Status; distance?: string; duration?: string; he
 const sessions = planData as PlanSession[];
 const STORAGE_KEY = "21k-training-log-records-v1";
 const SCHEDULE_KEY = "21k-training-log-schedule-v1";
+const trainingCategories = ["Descanso", "Series", "Fartlek", "Rodaje", "Tirada larga", "Regenerativo", "Fuerza", "Activación", "Carrera"];
 const statusLabels: Record<Status, string> = { planned: "Planificado", completed: "Completado", modified: "Modificado", skipped: "Omitido" };
 
 function localISODate(date = new Date()) {
@@ -131,7 +132,7 @@ function TodayView({ today, session, nextSession, currentWeek, records, onOpen, 
 }
 
 function PlanView({ groupedSessions, records, search, category, onSearch, onCategory, onOpen }: { groupedSessions: Record<string, PlanSession[]>; records: Record<string, TrainingRecord>; search: string; category: string; onSearch: (value: string) => void; onCategory: (value: string) => void; onOpen: (session: PlanSession) => void }) {
-  const categories = ["Todos", ...new Set(sessions.map((item) => item.category))];
+  const categories = ["Todos", ...trainingCategories];
   return <><header className="page-header"><div><p className="eyebrow">14 agosto — 29 noviembre</p><h1>Mi plan de entrenamiento</h1><p className="header-copy">Plan completo para llegar con confianza a Valencia y Sevilla.</p></div></header><div className="plan-tools"><label className="search-box"><span>⌕</span><input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Buscar una sesión" /></label><select value={category} onChange={(event) => onCategory(event.target.value)} aria-label="Filtrar por tipo">{categories.map((item) => <option key={item} value={item}>{item}</option>)}</select></div><div className="plan-list">{Object.entries(groupedSessions).map(([week, items]) => <section className="plan-week" key={week}><div className="plan-week-title"><span>{items[0].block}</span><h2>{week}</h2></div><div className="plan-week-items">{items.map((item) => { const status = getStatus(item.id, records); return <button className="plan-row" key={item.id} onClick={() => onOpen(item)}><div className="plan-date"><strong>{parseLocalDate(item.date).getDate()}</strong><span>{new Intl.DateTimeFormat("es-ES", { month: "short" }).format(parseLocalDate(item.date)).replace(".", "")}</span></div><div className="plan-session"><div><SessionBadge category={item.category} /><span className={`row-status ${status}`}>{statusLabels[status]}</span></div><h3>{item.session}</h3>{item.notes && <p>{item.notes}</p>}</div><div className="plan-target"><span>{item.volume}</span><strong>{item.pace}</strong></div><span className="row-arrow">›</span></button>; })}</div></section>)}</div></>;
 }
 

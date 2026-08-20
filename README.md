@@ -6,7 +6,7 @@ PWA estática para seguir el plan de las medias maratones de Valencia y Sevilla 
 
 - Plan completo de 86 entradas.
 - Vista del entrenamiento del día y de la semana.
-- Tipos de entrenamiento tomados directamente del plan.
+- Nueve categorías unificadas a partir de los tipos definidos en el plan.
 - Reorganización de sesiones dentro de una misma semana.
 - Registro de resultados, esfuerzo y sensaciones.
 - Progreso semanal.
@@ -37,7 +37,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\generate-plan-data.ps1
 ```
 
-El generador valida que existan las 86 entradas esperadas y conserva identificadores estables por fecha y posición.
+El generador valida que existan las 86 entradas esperadas, unifica sus categorías y conserva identificadores estables por fecha y posición.
 
 ## Publicación en GitHub Pages
 
