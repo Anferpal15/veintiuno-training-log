@@ -28,3 +28,153 @@ button { color:inherit; }
 @media (max-width:760px) { body { padding-bottom:68px; }.sidebar { display:none; }.main-content { margin-left:0; padding:25px 16px 50px; }.mobile-nav { position:fixed; z-index:50; display:grid; grid-template-columns:repeat(3,1fr); bottom:0; left:0; right:0; background:rgba(23,42,39,.97); padding:8px 12px max(8px,env(safe-area-inset-bottom)); }.mobile-nav button { display:grid; justify-items:center; gap:2px; padding:4px; font-size:9px; }.mobile-nav button span { font-size:19px; }.mobile-nav button.active { color:var(--lime); }.page-header { align-items:flex-start; margin-bottom:24px; }.page-header h1 { font-size:36px; }.race-pill { display:none; }.hero-grid { grid-template-columns:1fr 1fr; gap:12px; }.today-card { grid-column:1/-1; grid-row:auto; min-height:300px; padding:22px; }.today-card h2 { margin:24px 0 20px; }.goal-card { min-height:226px; padding:18px; }.goal-card::after { font-size:62px; right:-18px; }.goal-time strong { font-size:42px; }.goal-time span { display:none; }.pace-target { left:18px; right:18px; bottom:17px; }.pace-target strong { font-size:12px; }.week-section { padding:21px 14px 14px; overflow:hidden; }.section-heading .text-button { display:none; }.week-strip { overflow-x:auto; grid-template-columns:repeat(7,72px); margin-inline:-14px; padding-inline:14px; scrollbar-width:none; }.week-day { padding-inline:5px; }.next-card { padding:16px; }.plan-tools { position:sticky; top:0; z-index:5; padding:8px 0; background:var(--paper); }.plan-tools select { max-width:125px; }.plan-week { grid-template-columns:1fr; gap:7px; }.plan-week-title { padding:0 5px; }.plan-row { grid-template-columns:45px minmax(0,1fr) 14px; padding:14px 11px; gap:12px; }.plan-target { grid-column:2; grid-row:2; display:flex; gap:10px; }.row-arrow { grid-column:3; grid-row:1/3; }.stats-grid { grid-template-columns:1fr; gap:10px; }.stats-grid article { grid-template-columns:1fr auto; align-items:end; }.stats-grid article strong { grid-row:1/3; grid-column:2; margin:0; }.week-progress { grid-template-columns:70px 1fr 30px; }.legend-panel { flex-wrap:wrap; gap:12px 20px; }.modal-backdrop { padding:0; align-items:end; }.modal { max-height:94vh; border-radius:18px 18px 0 0; padding:25px 18px calc(24px + env(safe-area-inset-bottom)); }.status-picker { grid-template-columns:1fr 1fr; }.form-grid { grid-template-columns:1fr; }.form-grid label.full { grid-column:auto; } }
 @media (max-width:390px) { .goal-card { min-height:215px; }.goal-time strong { font-size:38px; }.metrics-row { gap:24px; }.page-header h1 { font-size:32px; } }
 @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; transition:none!important; } }
+
+/* Running editorial · retro-moderno */
+:root {
+  --ink:#19344d;
+  --muted:#82939d;
+  --paper:#f7f3ea;
+  --card:#fbf8f1;
+  --ice:#d8e5e5;
+  --peach:#e9a17b;
+  --charcoal:#202b32;
+  --line:rgba(25,52,77,.17);
+  --lime:var(--peach);
+  --orange:var(--peach);
+  --sage:var(--ice);
+}
+
+html,body { background:var(--paper); }
+body { color:var(--charcoal); }
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px solid var(--peach); outline-offset:3px; }
+
+.sidebar { background:var(--ink); color:var(--paper); border-right:1px solid rgba(247,243,234,.16); }
+.brand { color:var(--paper); }
+.brand-mark { width:46px; height:46px; border:1.5px solid var(--peach); color:var(--paper); border-radius:50%; font-family:Georgia,"Times New Roman",serif; transform:none; position:relative; }
+.brand-mark::after { content:""; position:absolute; inset:5px; border:1px solid rgba(216,229,229,.5); border-radius:50%; }
+.brand strong { font-family:Georgia,"Times New Roman",serif; font-weight:500; }
+.brand small { color:rgba(216,229,229,.65); }
+.main-nav button,.mobile-nav button { color:rgba(216,229,229,.72); border-radius:8px; letter-spacing:.02em; }
+.main-nav button:hover,.main-nav button.active { background:rgba(216,229,229,.1); color:var(--paper); }
+.main-nav button.active { box-shadow:inset 3px 0 0 var(--peach); }
+.main-nav button.active span { color:var(--peach); }
+.sidebar-goal { border-color:rgba(216,229,229,.22); background:transparent; }
+.sidebar-goal>span,.sidebar-goal small { color:rgba(216,229,229,.62); }
+.goal-line { background:rgba(216,229,229,.2); }
+.goal-line i { background:var(--peach); }
+
+.main-content { position:relative; }
+.page-header { padding-bottom:18px; border-bottom:1px solid var(--line); }
+.eyebrow,.overline { color:var(--muted); font-weight:800; letter-spacing:.18em; }
+.page-header h1 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; font-weight:500; }
+.header-copy { color:var(--muted); }
+.race-pill { border-color:var(--line); }
+.race-pill strong { color:var(--ink); }
+
+.today-card,.goal-card,.week-section,.next-card,.progress-panel,.stats-grid article,.legend-panel {
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:none;
+}
+.today-card { background:var(--card); border-top:4px solid var(--peach); position:relative; overflow:hidden; }
+.today-card::after { content:"21.1"; position:absolute; right:-10px; bottom:-23px; color:rgba(25,52,77,.045); font:700 100px/1 Georgia,"Times New Roman",serif; pointer-events:none; }
+.today-card h2 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; font-weight:500; position:relative; z-index:1; }
+.metrics-row { border-color:var(--line); position:relative; z-index:1; }
+.metrics-row strong { color:var(--ink); font:500 18px Georgia,"Times New Roman",serif; }
+.status-dot { background:var(--ice); box-shadow:0 0 0 4px var(--paper); }
+.status-dot.completed { background:var(--ink); }
+.status-dot.modified { background:var(--peach); }
+.status-dot.skipped { background:var(--muted); }
+
+.session-badge { border:1px solid rgba(25,52,77,.13); border-radius:5px; background:var(--ice); color:var(--ink); letter-spacing:.08em; }
+.session-badge.rodaje,.session-badge.tirada-larga,.session-badge.recuperacion,.session-badge.fuerza { background:var(--ice); color:var(--ink); }
+.session-badge.calidad,.session-badge.carrera { background:rgba(233,161,123,.28); color:var(--ink); border-color:rgba(233,161,123,.5); }
+.coach-note { color:#5f707a; }
+.coach-note>span { background:var(--ice); color:var(--ink); }
+.primary-button { min-height:48px; background:var(--peach); color:var(--ink); border-radius:8px; text-transform:uppercase; letter-spacing:.08em; font-size:11px; }
+.primary-button:hover { background:#df936b; }
+.primary-button span { color:var(--ink); }
+.text-button { color:var(--ink); text-transform:uppercase; letter-spacing:.07em; font-size:10px; }
+
+.goal-card { background:var(--ice); color:var(--ink); }
+.goal-card.valencia { background:var(--ice); }
+.goal-card.sevilla { background:#efe5d8; }
+.goal-card::before { content:""; position:absolute; width:160px; height:82px; right:-38px; top:-25px; border:1px solid rgba(25,52,77,.17); border-radius:50%; box-shadow:inset 0 0 0 7px transparent,0 0 0 7px rgba(25,52,77,.06),0 0 0 14px transparent,0 0 0 15px rgba(25,52,77,.07); transform:rotate(-10deg); }
+.goal-card::after { color:rgba(25,52,77,.07); font-family:Georgia,"Times New Roman",serif; }
+.goal-time strong { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.goal-time span { color:#60727d; }
+.pace-target { border-color:rgba(25,52,77,.2); }
+
+.week-section { background:var(--card); }
+.section-heading h2 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.week-strip { border-color:var(--line); }
+.week-day { background:transparent; border-color:var(--line); }
+.week-day:hover { background:rgba(216,229,229,.35); }
+.week-day.is-today { background:transparent; }
+.week-day.is-today::before { background:var(--peach); color:var(--ink); border-radius:3px; font-weight:800; }
+.week-day strong { width:43px; height:43px; display:grid; place-items:center; border-radius:50%; background:var(--ice); color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.week-day.is-today strong { background:var(--peach); }
+.week-day.status-completed strong { background:var(--ink); color:var(--paper); }
+.week-day.status-modified strong { box-shadow:inset 0 0 0 2px var(--peach); }
+.week-day.status-skipped strong { background:transparent; border:1px dashed var(--muted); color:var(--muted); }
+.mini-dot,.legend-dot { background:var(--ice); border:1px solid rgba(25,52,77,.22); }
+.mini-dot.calidad,.mini-dot.carrera { background:var(--peach); }
+.mini-dot.rodaje,.mini-dot.tirada-larga { background:var(--ink); }
+.mini-dot.recuperacion,.mini-dot.fuerza { background:var(--ice); }
+
+.next-card { background:var(--ice); }
+.next-date { border-color:rgba(25,52,77,.18); }
+.next-date strong,.next-card h3 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.next-card>button { border-color:var(--ink); color:var(--ink); }
+
+.search-box,.plan-tools select { background:var(--card); border-color:var(--line); color:var(--charcoal); }
+.plan-week-title h2 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.plan-week-items { background:var(--card); border:1px solid var(--line); box-shadow:none; }
+.plan-row { background:transparent; border-color:var(--line); }
+.plan-row:hover { background:rgba(216,229,229,.28); }
+.plan-date { border-color:var(--line); }
+.plan-date strong { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.plan-session h3 { color:var(--charcoal); }
+.plan-target strong { color:var(--ink); }
+.row-status.completed { color:var(--ink); }
+.row-status.modified { color:#a65f3e; }
+.row-status.skipped { color:var(--muted); }
+.row-arrow { color:var(--ink); }
+
+.stats-grid article { background:var(--card); border-top:3px solid var(--ink); }
+.stats-grid article:nth-child(2) { background:var(--ice); }
+.stats-grid article:nth-child(3) { border-top-color:var(--peach); }
+.stats-grid strong { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.progress-panel { background:var(--card); }
+.week-progress>div { background:var(--ice); }
+.week-progress i { background:var(--ink); }
+.legend-panel { background:var(--ice); }
+.legend-dot.completed { background:var(--ink); }
+.legend-dot.modified { background:var(--peach); }
+.legend-dot.skipped { background:var(--muted); }
+
+.modal-backdrop { background:rgba(25,52,77,.68); }
+.modal { background:var(--paper); border:1px solid rgba(247,243,234,.4); border-radius:16px; box-shadow:0 24px 60px rgba(32,43,50,.24); }
+.modal-close { background:var(--ice); color:var(--ink); }
+.modal h2 { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+.modal-plan { border-color:var(--line); }
+.status-picker label { border-color:var(--line); background:var(--card); }
+.status-picker label.selected { border-color:var(--peach); background:var(--peach); color:var(--ink); }
+.form-grid input,.form-grid select,.notes-field textarea { background:var(--card); border-color:var(--line); color:var(--charcoal); }
+.form-grid input:focus,.form-grid select:focus,.notes-field textarea:focus { border-color:var(--peach); box-shadow:0 0 0 3px rgba(233,161,123,.18); }
+.move-button { border-color:var(--line); background:transparent; color:var(--ink); text-transform:uppercase; letter-spacing:.06em; }
+.move-button:hover { border-color:var(--ink); background:var(--ice); }
+.moving-session { background:var(--ice); }
+.swap-list>button { border-color:var(--line); background:var(--card); }
+.swap-list>button:hover:not(:disabled) { border-color:var(--peach); background:rgba(233,161,123,.12); }
+.swap-date { border-color:var(--line); }
+.swap-date strong { color:var(--ink); font-family:Georgia,"Times New Roman",serif; }
+
+@media (max-width:760px) {
+  .mobile-nav { background:rgba(25,52,77,.98); border-top:1px solid rgba(216,229,229,.18); }
+  .mobile-nav button.active { color:var(--peach); }
+  .page-header { padding-bottom:14px; }
+  .today-card::after { font-size:78px; }
+  .goal-card::before { width:130px; height:66px; }
+  .modal { border-color:var(--line); }
+}
